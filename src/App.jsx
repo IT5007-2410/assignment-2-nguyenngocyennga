@@ -1,15 +1,22 @@
 /*Q1. JS Variable needs to be created here. Below variable is just an example. Try to add more attributes.*/
-const initialTravellers = [
+const initialTravellers = JSON.parse(localStorage.getItem('travellers')) || [
   {
-    id: 1, name: 'Jack', phone: 88885555,
-    bookingTime: new Date(),
+    id: 1,
+    name: 'Nga Nguyen',
+    phone: 8593789,
+    email: 'nga@gmail.com',
+    bookingTime: new Date().toLocaleString(),
   },
   {
-    id: 2, name: 'Rose', phone: 88884444,
-    bookingTime: new Date(),
+    id: 2,
+    name: 'Wen Shu',
+    phone: 7755382,
+    email: 'wn928@gmail.com',
+    bookingTime: new Date().toLocaleString(),
   },
 ];
 
+let serialNumber = initialTravellers.length > 0 ? initialTravellers[initialTravellers.length - 1].id + 1 : 1;
 
 function TravellerRow(props) {
   {/*Q3. Placeholder to initialize local variable based on traveller prop.*/}
