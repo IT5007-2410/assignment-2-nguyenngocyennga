@@ -62,23 +62,76 @@ function Display(props) {
 }
 
 class Add extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = { name: '', phone: '', email: '' };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
     /*Q4. Fetch the passenger details from the add form and call bookTraveller()*/
+    const { name, phone, email } = this.state;
+
+    if (!name || !phone || !email) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    if (!/^\d+$/.test(phone)) {
+      alert("Phone number should contain only digits.");
+      return;
+    }
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    const newTraveller = {
+      id: serialNumber++,
+      name: name.trim(),
+      phone: phone.trim(),
+      email: email.trim(),
+      bookingTime: new Date().toLocaleString(),
+    };
+
+    this.props.bookTraveller(newTraveller);
+    this.setState({ name: '', phone: '', email: '' });
   }
 
   render() {
+    const remainingSeats = this.props.totalSeats - this.props.travellers.length;
+
     return (
-      <form name="addTraveller" onSubmit={this.handleSubmit}>
-	    {/*Q4. Placeholder to enter passenger details. Below code is just an example.*/}
-        <input type="text" name="travellername" placeholder="Name" />
-        <button>Add</button>
-      </form>
+      <div>
+        <form name="addTraveller" onSubmit={this.handleSubmit}>
+          {/*Q4. Placeholder to enter passenger details. Below code is just an example.*/}
+          <input
+            type="text"
+            name="travellername"
+            placeholder="Name"
+            value={this.state.name}
+            onChange={(e) => this.setState({ name: e.target.value })}
+          />
+          <input
+            type="text"
+            name="travellerphone"
+            placeholder="Phone"
+            value={this.state.phone}
+            onChange={(e) => this.setState({ phone: e.target.value })}
+          />
+          <input
+            type="email"
+            name="travelleremail"
+            placeholder="Email"
+            value={this.state.email}
+            onChange={(e) => this.setState({ email: e.target.value })}
+          />
+          <button type="submit">Add</button>
+        </form>
+        <p>Remaining Seats: {remainingSeats}</p> {/* Display remaining seats */}
+      </div>
     );
   }
 }
@@ -159,8 +212,15 @@ class TicketToRide extends React.Component {
     }, 500);
   }
 
-  bookTraveller(passenger) {
-	    /*Q4. Write code to add a passenger to the traveller state variable.*/
+  bookTraveller(traveller) {
+    /*Q4. Write code to add a passenger to the traveller state variable.*/
+    if (this.state.travellers.length < this.state.totalSeats) {
+      this.setState((prevState) => ({
+        travellers: [...prevState.travellers, traveller],
+      }));
+    } else {
+      alert('No more seats available!');
+    }
   }
 
   deleteTraveller(passenger) {
@@ -188,6 +248,9 @@ class TicketToRide extends React.Component {
       <Display travellers={this.state.travellers} />
     )}
 		{/*Q4. Code to call the component that adds a traveller.*/}
+    {this.state.selector === 'add' && (
+      <Add travellers={this.state.travellers} bookTraveller={this.bookTraveller} totalSeats={this.state.totalSeats} />
+    )}
 		{/*Q5. Code to call the component that deletes a traveller based on a given attribute.*/}
 	</div>
       </div>
