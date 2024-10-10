@@ -36,7 +36,7 @@ function TravellerRow(props) {
           <button onClick={() => onDelete(traveller.id)}>Delete</button>
         </td>
       )}
-      
+
     </tr>
   );
 }
@@ -239,6 +239,7 @@ class Homepage extends React.Component {
     return (
       <div>
         {/*Q2. Placeholder for Homepage code that shows free seats visually.*/}
+        {/*Q6. Add visual representation of reserved and unreserved tickets.*/}
         <h2>Free Seats: {freeSeats} / {totalSeats}</h2>
         <div style={{ display: 'flex', flexWrap: 'wrap', width: '110px' }}> {/* Adjusted the width to fit 2 seats */}
           {Array.from({ length: totalSeats }).map((_, index) => (
