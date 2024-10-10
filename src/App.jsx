@@ -64,6 +64,10 @@ function Display(props) {
           ))}
         </tbody>
       </table>
+      <p style={{ fontStyle: 'italic', fontSize: 'small' }}>
+        The system allows duplicate names as one person can reserve tickets for multiple people. 🚧 
+        System is under construction, more improvements are coming soon! 😍
+      </p>
     </div>
   );
 }
@@ -138,6 +142,10 @@ class Add extends React.Component {
           <button type="submit">Add</button>
         </form>
         <p>Remaining Seats: {remainingSeats}</p> {/* Display remaining seats */}
+        <p style={{ fontStyle: 'italic', fontSize: 'small' }}>
+          The system allows duplicate names as one person can reserve tickets for multiple people. 🚧 
+          System is under construction, more improvements are coming soon! 😍
+        </p>
       </div>
     );
   }
@@ -226,6 +234,10 @@ class Delete extends React.Component {
             ))}
           </tbody>
         </table>
+        <p style={{ fontStyle: 'italic', fontSize: 'small' }}>
+          The system allows duplicate names as one person can reserve tickets for multiple people. 🚧 
+          System is under construction, more improvements are coming soon!
+        </p>
       </div>
     );
   }
@@ -265,25 +277,20 @@ class TicketToRide extends React.Component {
     this.state = { 
       travellers: initialTravellers, 
       selector: 'home', 
-      totalSeats: 10,};
+      totalSeats: 10,
+    };
     this.bookTraveller = this.bookTraveller.bind(this);
     this.deleteTraveller = this.deleteTraveller.bind(this);
     this.setSelector = this.setSelector.bind(this);
   }
 
-  setSelector(value)
-  {
-  	/*Q2. Function to set the value of component selector variable based on user's button click.*/
-    this.setState({ selector: value });
-  }
-  componentDidMount() {
-    this.loadData();
+  componentDidUpdate() {
+    localStorage.setItem('travellers', JSON.stringify(this.state.travellers));
   }
 
-  loadData() {
-    setTimeout(() => {
-      this.setState({ travellers: initialTravellers });
-    }, 500);
+  setSelector(value) {
+  	/*Q2. Function to set the value of component selector variable based on user's button click.*/
+    this.setState({ selector: value });
   }
 
   bookTraveller(traveller) {
@@ -307,7 +314,7 @@ class TicketToRide extends React.Component {
   render() {
     return (
       <div>
-        <h1>Ticket To Ride</h1>
+        <h1>Ticket To Ride 🎫</h1>
         <nav>
           {/*Q2. Code for Navigation bar. Use basic buttons to create a nav bar. Use states to manage selection.*/}
           <button onClick={() => this.setSelector('home')}>Home</button>
